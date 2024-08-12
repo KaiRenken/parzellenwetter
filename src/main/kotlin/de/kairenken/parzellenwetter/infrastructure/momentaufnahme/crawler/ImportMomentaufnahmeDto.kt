@@ -1,11 +1,10 @@
 package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.crawler
 
-import java.time.LocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class MomentaufnahmeDto(
+class ImportMomentaufnahmeDto(
 
     @SerialName("obsTimeLocal") var obsTimeLocal: String,
 

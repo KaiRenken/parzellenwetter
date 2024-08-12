@@ -40,12 +40,12 @@ class WeatherDataCrawler(private val momentaufnahmeJpaRepository: Momentaufnahme
             .getJSONObject(0)
             .toString()
 
-        val momentaufnahme: MomentaufnahmeDto = jsonSerde.decodeFromString(response)
+        val momentaufnahme: ImportMomentaufnahmeDto = jsonSerde.decodeFromString(response)
 
         momentaufnahmeJpaRepository.save(momentaufnahme.mapToEntity())
     }
 
-    private fun MomentaufnahmeDto.mapToEntity(): MomentaufnahmeEntity = MomentaufnahmeEntity(
+    private fun ImportMomentaufnahmeDto.mapToEntity(): MomentaufnahmeEntity = MomentaufnahmeEntity(
         id = UUID.randomUUID(),
         obsTimeLocal = LocalDateTime.parse(this.obsTimeLocal, dateTimeFormatter),
         solarRadiation = this.solarRadiation,

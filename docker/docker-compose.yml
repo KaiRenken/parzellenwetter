@@ -1,0 +1,18 @@
+version: '3'
+
+volumes:
+  parzellenwetter_postgres_data:
+    driver: local
+
+services:
+  postgres:
+    container_name: parzellenwetter-postgres_container
+    image: postgres:16.3-alpine
+    volumes:
+      - parzellenwetter_postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: parzellenwetter_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"

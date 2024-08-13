@@ -1,18 +1,43 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './App.css'
 import {LineChart} from "@mui/x-charts";
+import {HttpClientResponse, httpGet} from "./utils/HttpClient.ts";
+
+type MomentaufnahmeDto = {
+    id?: string,
+    zeitpunkt: string,
+    temperatur?: number,
+    luftfeuchtigkeit?: number,
+    taupunkt?: number,
+    luftdruck?: number,
+    windrichtung?: number,
+    windgeschwindigkeit?: number,
+    windboeengeschwindigkeit?: number,
+    sonnenstrahlung?: number,
+    uvIndex?: number,
+    niederschlag?: number,
+    niederschlagDurchschnitt?: number
+};
 
 function App() {
-    const [count, setCount] = useState(0)
+    const [momentaufnahmen, setMomentaufnahmen] = useState<MomentaufnahmeDto[]>([]);
+
+    useEffect(() => getMomentaufnahmen());
+
+    const getMomentaufnahmen = () => {
+        let path = "/api/momentaufnahmen/?from=2024-08-13T15:19&to=2024-08-13T15:57";
+        httpGet<MomentaufnahmeDto[]>(path)
+            .then((response: HttpClientResponse<MomentaufnahmeDto[]>) => setMomentaufnahmen(response.data))
+    }
 
     return (
         <>
             <div>
                 <LineChart
-                    xAxis={[{data: [1, 2, 3, 5, 8, 10]}]}
+                    xAxis={[{data: [momentaufnahmen[0].zeitpunkt, momentaufnahmen[1].zeitpunkt, momentaufnahmen[2].zeitpunkt]}]}
                     series={[
                         {
-                            data: [2, 5.5, 2, 8.5, 1.5, 5],
+                            data: [momentaufnahmen[0].temperatur, momentaufnahmen[1].temperatur, momentaufnahmen[2].temperatur],
                         },
                     ]}
                     width={500}

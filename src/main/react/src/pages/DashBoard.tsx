@@ -61,8 +61,9 @@ function DashBoard() {
                         data: data
                     }
                 ]}
-                height={1000}
+                height={600}
                 width={1500}
+                margin={{bottom: 50, top: 50}}
             />
         )
     }
@@ -88,38 +89,18 @@ function DashBoard() {
             <div>
                 <DateTimePicker
                     label={"von"}
+                    views={['year', 'month', 'day', 'hours', 'minutes']}
                     defaultValue={dayjs().subtract(1, 'day')}
                     onChange={(newValue) => setLowerTimeBound(newValue)}
                 />
                 <DateTimePicker
                     label={"bis"}
+                    views={['year', 'month', 'day', 'hours', 'minutes']}
                     defaultValue={dayjs()}
                     onChange={(newValue) => setUpperTimeBound(newValue)}
                 />
-                <LineChart
-                    xAxis={[
-                        {
-                            label: "Zeitpunkt",
-                            data: zeitpunkte,
-                            tickInterval: "auto",
-                            scaleType: "time",
-                            valueFormatter: (date) => dayjs(date).format("DD.MM.YYYY H:mm")
-                        },
-                    ]}
-                    yAxis={[{label: "Temperatur / Taupunkt (°C)"}]}
-                    series={[
-                        {
-                            label: "Temperatur (°C)",
-                            data: temperaturen
-                        },
-                        {
-                            label: "Taupunkt (°C)",
-                            data: taupunkte
-                        },
-                    ]}
-                    height={1000}
-                    width={1500}
-                />
+                {renderLineChart("Temperatur (°C)", zeitpunkte, temperaturen)}
+                {renderLineChart("Taupunkt (°C)", zeitpunkte, taupunkte)}
                 {renderLineChart("Luftfeuchtigkeit (%)", zeitpunkte, luftfeuchtigkeiten)}
                 {renderLineChart("Luftdruck (hPa)", zeitpunkte, luftdruecke)}
                 {renderLineChart("Niederschlag (mm/h)", zeitpunkte, niederschlaege)}

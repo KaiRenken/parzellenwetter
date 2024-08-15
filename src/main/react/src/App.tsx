@@ -29,7 +29,7 @@ function App() {
     }, []);
 
     const getMomentaufnahmen = () => {
-        let path = "/api/momentaufnahme/?from=2024-08-13T15:19&to=2024-08-13T15:57";
+        let path = "/api/momentaufnahme/?from=2024-08-15T08:24&to=2024-08-15T10:15";
         httpGet<MomentaufnahmeDto[]>(path)
             .then((response: HttpClientResponse<MomentaufnahmeDto[]>) => {
                 setMomentaufnahmen(response.data)
@@ -40,26 +40,32 @@ function App() {
     const renderContent = () => {
         if (isLoading) return <div>Lädt Daten...</div>
 
-        const xAxisData = momentaufnahmen.map(momentaufnahme => new Date(momentaufnahme.zeitpunkt))
+        const zeitpunkte = momentaufnahmen.map(momentaufnahme => new Date(momentaufnahme.zeitpunkt))
 
-        const yAxisData = momentaufnahmen.map(momentaufnahme => momentaufnahme.temperatur ?? null)
+        const temperaturen = momentaufnahmen.map(momentaufnahme => momentaufnahme.temperatur ?? null)
+        const taupunkte = momentaufnahmen.map(momentaufnahme => momentaufnahme.taupunkt ?? null)
 
         return (
             <div>
                 <LineChart
                     xAxis={[
                         {
-                            label: "Date",
-                            data: xAxisData,
+                            label: "Zeitpunkt",
+                            data: zeitpunkte,
                             tickInterval: "auto",
                             scaleType: "time",
-                            valueFormatter: (date) => dayjs(date).format("DD/MM/YYYY H:mm")
+                            valueFormatter: (date) => dayjs(date).format("DD.MM.YYYY H:mm")
                         },
                     ]}
-                    yAxis={[{label: "Temperatur (°C)"}]}
+                    yAxis={[{label: "Temperatur / Taupunkt (°C)"}]}
                     series={[
                         {
-                            data: yAxisData
+                            label: "Temperatur (°C)",
+                            data: temperaturen
+                        },
+                        {
+                            label: "Taupunkt (°C)",
+                            data: taupunkte
                         },
                     ]}
                     height={1000}

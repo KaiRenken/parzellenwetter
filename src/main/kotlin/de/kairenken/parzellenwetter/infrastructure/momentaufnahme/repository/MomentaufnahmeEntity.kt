@@ -14,39 +14,39 @@ class MomentaufnahmeEntity(
     @Id
     var id: UUID,
 
-    @Column(name = "obs_time_local")
-    var obsTimeLocal: LocalDateTime,
+    @Column(name = "zeitpunkt")
+    var zeitpunkt: LocalDateTime,
 
-    @Column(name = "solar_radiation")
-    var solarRadiation: Float?,
+    @Column(name = "sonnenstrahlung")
+    var sonnenstrahlung: Float?,
 
-    @Column(name = "uv")
-    var uv: Float?,
+    @Column(name = "uv_index")
+    var uvIndex: Float?,
 
-    @Column(name = "winddir")
-    var winddir: Int?,
+    @Column(name = "windrichtung")
+    var windrichtung: Int?,
 
-    @Column(name = "humidity")
-    var humidity: Int?,
+    @Column(name = "luftfeuchtigkeit")
+    var luftfeuchtigkeit: Int?,
 
-    @Column(name = "temp")
-    var temp: Int?,
+    @Column(name = "temperatur")
+    var temperatur: Int?,
 
-    @Column(name = "dewpt")
-    var dewpt: Int?,
+    @Column(name = "taupunkt")
+    var taupunkt: Int?,
 
-    @Column(name = "wind_speed")
-    var windSpeed: Int?,
+    @Column(name = "windgeschwindigkeit")
+    var windgeschwindigkeit: Int?,
 
-    @Column(name = "wind_gust")
-    var windGust: Int?,
+    @Column(name = "windboeengeschwindigkeit")
+    var windboeengeschwindigkeit: Int?,
 
-    @Column(name = "pressure")
-    var pressure: Float?,
+    @Column(name = "luftdruck")
+    var luftdruck: Float?,
 
-    @Column(name = "percip_rate")
-    var precipRate: Float?,
+    @Column(name = "niederschlag")
+    var niederschlag: Float?,
 
-    @Column(name = "percip_total")
-    var precipTotal: Float?
+    @Column(name = "niederschlag_gesamt")
+    var niederschlagGesamt: Float?
 )

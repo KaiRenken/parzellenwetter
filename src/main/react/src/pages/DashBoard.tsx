@@ -17,7 +17,7 @@ type MomentaufnahmeDto = {
     sonnenstrahlung?: number,
     uvIndex?: number,
     niederschlag?: number,
-    niederschlagDurchschnitt?: number
+    niederschlagGesamt?: number
 };
 
 function DashBoard() {
@@ -78,7 +78,7 @@ function DashBoard() {
         const luftfeuchtigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.luftfeuchtigkeit ?? null)
         const luftdruecke = momentaufnahmen.map(momentaufnahme => momentaufnahme.luftdruck ?? null)
         const niederschlaege = momentaufnahmen.map(momentaufnahme => momentaufnahme.niederschlag ?? null)
-        const niederschlaegeDurchschnitt = momentaufnahmen.map(momentaufnahme => momentaufnahme.niederschlagDurchschnitt ?? null)
+        const niederschlaegeDurchschnitt = momentaufnahmen.map(momentaufnahme => momentaufnahme.niederschlagGesamt ?? null)
         const sonnenstrahlungen = momentaufnahmen.map(momentaufnahme => momentaufnahme.sonnenstrahlung ?? null)
         const unIndizes = momentaufnahmen.map(momentaufnahme => momentaufnahme.uvIndex ?? null)
         const windrichtungen = momentaufnahmen.map(momentaufnahme => momentaufnahme.windrichtung ?? null)

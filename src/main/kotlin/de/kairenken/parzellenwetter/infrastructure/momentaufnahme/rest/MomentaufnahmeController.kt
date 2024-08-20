@@ -36,7 +36,7 @@ class MomentaufnahmeController(private val momentaufnahmeRepository: Momentaufna
         sonnenstrahlung = this.sonnenstrahlung,
         uvIndex = this.uvIndex,
         niederschlag = this.niederschlag,
-        niederschlagDurchschnitt = this.niederschlagDurchschnitt
+        niederschlagGesamt = this.niederschlagGesamt
     )
 
     private fun List<ReadMomentaufnahmeDto>.wrapItInResponse(): ResponseEntity<List<ReadMomentaufnahmeDto>> =

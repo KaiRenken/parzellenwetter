@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MomentaufnahmeJpaRepository : JpaRepository<MomentaufnahmeEntity, UUID> {
 
-    fun findAllByObsTimeLocalBetweenOrderByObsTimeLocal(
+    fun findAllByZeitpunktBetweenOrderByZeitpunkt(
         from: LocalDateTime,
         to: LocalDateTime
     ): List<MomentaufnahmeEntity>

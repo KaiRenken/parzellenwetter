@@ -16,5 +16,5 @@ class ReadMomentaufnahmeDto(
     val sonnenstrahlung: Float?,
     val uvIndex: Float?,
     val niederschlag: Float?,
-    val niederschlagDurchschnitt: Float?
+    val niederschlagGesamt: Float?
 )

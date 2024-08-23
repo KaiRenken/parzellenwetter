@@ -59,7 +59,6 @@ function DashBoard() {
                         valueFormatter: (date) => dayjs(date).format("DD.MM.YYYY H:mm")
                     },
                 ]}
-                yAxis={[{label: labelY}]}
                 series={[
                     {
                         label: labelY,
@@ -115,8 +114,8 @@ function DashBoard() {
                 {renderLineChart("Sonnenstrahlung (fc)", zeitpunkte, sonnenstrahlungen)}
                 {renderLineChart("UV-Index", zeitpunkte, unIndizes)}
                 {renderLineChart("Windrichtung", zeitpunkte, windrichtungen)}
-                {renderLineChart("Windgeschwindigkeit (m/s)", zeitpunkte, windgeschwindigkeiten)}
-                {renderLineChart("Windböen (m/s)", zeitpunkte, windboeengeschwindigkeiten)}
+                {renderLineChart("Windgeschwindigkeit (km/h)", zeitpunkte, windgeschwindigkeiten)}
+                {renderLineChart("Windböen (km/h)", zeitpunkte, windboeengeschwindigkeiten)}
             </div>
         )
     }

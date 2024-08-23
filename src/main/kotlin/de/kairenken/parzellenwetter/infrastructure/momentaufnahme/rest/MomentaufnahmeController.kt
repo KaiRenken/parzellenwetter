@@ -19,7 +19,7 @@ class MomentaufnahmeController(private val momentaufnahmeRepository: Momentaufna
         @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) from: LocalDateTime,
         @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) to: LocalDateTime
     ): ResponseEntity<List<ReadMomentaufnahmeDto>> =
-        momentaufnahmeRepository.holeMomentaufnahmen(von = from, bis = to)
+        momentaufnahmeRepository.holeMomentaufnahmen(von = from.plusHours(2L), bis = to.plusHours(2L))
             .map { it.toReadDto() }
             .wrapItInResponse()
 

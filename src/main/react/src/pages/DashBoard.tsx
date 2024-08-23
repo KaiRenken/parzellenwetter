@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import {HttpClientResponse, httpGet} from "../utils/HttpClient.ts";
 import {LineChart} from "@mui/x-charts";
 import {DateTimePicker} from "@mui/x-date-pickers";
@@ -19,6 +21,9 @@ type MomentaufnahmeDto = {
     niederschlag?: number,
     niederschlagGesamt?: number
 };
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 function DashBoard() {
     const [lowerTimeBound, setLowerTimeBound] = useState<Date>(dayjs().subtract(1, 'day'))
@@ -88,12 +93,14 @@ function DashBoard() {
         return (
             <div>
                 <DateTimePicker
+                    timezone="Europe/Paris"
                     label={"von"}
                     views={['year', 'month', 'day', 'hours', 'minutes']}
                     defaultValue={dayjs().subtract(1, 'day')}
                     onChange={(newValue) => setLowerTimeBound(newValue)}
                 />
                 <DateTimePicker
+                    timezone="Europe/Paris"
                     label={"bis"}
                     views={['year', 'month', 'day', 'hours', 'minutes']}
                     defaultValue={dayjs()}

@@ -52,7 +52,6 @@ function DashBoard() {
             <LineChart
                 xAxis={[
                     {
-                        label: "Zeitpunkt",
                         data: zeitpunkte,
                         tickInterval: "auto",
                         scaleType: "time",
@@ -90,32 +89,36 @@ function DashBoard() {
         const windboeengeschwindigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.windboeengeschwindigkeit ?? null)
 
         return (
-            <div>
-                <DateTimePicker
-                    timezone="Europe/Paris"
-                    label={"von"}
-                    views={['year', 'month', 'day', 'hours', 'minutes']}
-                    defaultValue={dayjs().subtract(1, 'day')}
-                    onChange={(newValue) => setLowerTimeBound(newValue)}
-                />
-                <DateTimePicker
-                    timezone="Europe/Paris"
-                    label={"bis"}
-                    views={['year', 'month', 'day', 'hours', 'minutes']}
-                    defaultValue={dayjs()}
-                    onChange={(newValue) => setUpperTimeBound(newValue)}
-                />
-                {renderLineChart("Temperatur (°C)", zeitpunkte, temperaturen)}
-                {renderLineChart("Taupunkt (°C)", zeitpunkte, taupunkte)}
-                {renderLineChart("Luftfeuchtigkeit (%)", zeitpunkte, luftfeuchtigkeiten)}
-                {renderLineChart("Luftdruck (hPa)", zeitpunkte, luftdruecke)}
-                {renderLineChart("Niederschlag (mm/h)", zeitpunkte, niederschlaege)}
-                {renderLineChart("Niederschlag gesamt (mm)", zeitpunkte, niederschlaegeDurchschnitt)}
-                {renderLineChart("Sonnenstrahlung (fc)", zeitpunkte, sonnenstrahlungen)}
-                {renderLineChart("UV-Index", zeitpunkte, unIndizes)}
-                {renderLineChart("Windrichtung", zeitpunkte, windrichtungen)}
-                {renderLineChart("Windgeschwindigkeit (km/h)", zeitpunkte, windgeschwindigkeiten)}
-                {renderLineChart("Windböen (km/h)", zeitpunkte, windboeengeschwindigkeiten)}
+            <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "center", gap: "10px"}}>
+                    <DateTimePicker
+                        timezone="Europe/Paris"
+                        label={"von"}
+                        views={['year', 'month', 'day', 'hours', 'minutes']}
+                        defaultValue={dayjs().subtract(1, 'day')}
+                        onChange={(newValue) => setLowerTimeBound(newValue)}
+                    />
+                    <DateTimePicker
+                        timezone="Europe/Paris"
+                        label={"bis"}
+                        views={['year', 'month', 'day', 'hours', 'minutes']}
+                        defaultValue={dayjs()}
+                        onChange={(newValue) => setUpperTimeBound(newValue)}
+                    />
+                </div>
+                <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
+                    {renderLineChart("Temperatur (°C)", zeitpunkte, temperaturen)}
+                    {renderLineChart("Taupunkt (°C)", zeitpunkte, taupunkte)}
+                    {renderLineChart("Luftfeuchtigkeit (%)", zeitpunkte, luftfeuchtigkeiten)}
+                    {renderLineChart("Luftdruck (hPa)", zeitpunkte, luftdruecke)}
+                    {renderLineChart("Niederschlag (mm/h)", zeitpunkte, niederschlaege)}
+                    {renderLineChart("Niederschlag gesamt (mm)", zeitpunkte, niederschlaegeDurchschnitt)}
+                    {renderLineChart("Sonnenstrahlung (fc)", zeitpunkte, sonnenstrahlungen)}
+                    {renderLineChart("UV-Index", zeitpunkte, unIndizes)}
+                    {renderLineChart("Windrichtung", zeitpunkte, windrichtungen)}
+                    {renderLineChart("Windgeschwindigkeit (km/h)", zeitpunkte, windgeschwindigkeiten)}
+                    {renderLineChart("Windböen (km/h)", zeitpunkte, windboeengeschwindigkeiten)}
+                </div>
             </div>
         )
     }

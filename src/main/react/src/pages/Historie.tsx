@@ -25,7 +25,7 @@ type MomentaufnahmeDto = {
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-function DashBoard() {
+function Historie() {
     const [lowerTimeBound, setLowerTimeBound] = useState<Date>(dayjs().subtract(1, 'day'))
     const [upperTimeBound, setUpperTimeBound] = useState<Date>(dayjs())
     const [momentaufnahmen, setMomentaufnahmen] = useState<MomentaufnahmeDto[]>([]);
@@ -130,4 +130,4 @@ function DashBoard() {
     )
 }
 
-export default DashBoard
+export default Historie

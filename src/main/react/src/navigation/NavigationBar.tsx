@@ -1,21 +1,31 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
+import {Box, Drawer, List, ListItem, ListItemButton} from "@mui/material";
 import {createRouterPath} from "../utils/LinkUtils.ts";
+import {Link} from "react-router-dom";
 
 const NavigationBar = () => {
     return (
-        <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "10px"}}>
-            <div>
-                <Link to={createRouterPath("historie")}>
-                    Historie
-                </Link>
-            </div>
-            <div>
-                <Link to={createRouterPath("statistik")}>
-                    Statistik
-                </Link>
-            </div>
-        </div>
+        <Drawer
+            variant={"permanent"} ModalProps={{keepMounted: false}}>
+            <Box sx={{width: 250}} role="presentation">
+                <List>
+                    <ListItem key={"historie"} disablePadding>
+                        <ListItemButton>
+                            <Link to={createRouterPath("historie")}>
+                                Historie
+                            </Link>
+                        </ListItemButton>
+                    </ListItem>
+                    <ListItem key={"statistik"} disablePadding>
+                        <ListItemButton>
+                            <Link to={createRouterPath("statistik")}>
+                                Statistik
+                            </Link>
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            </Box>
+        </Drawer>
     )
 }
 

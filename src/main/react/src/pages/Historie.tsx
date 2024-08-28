@@ -64,9 +64,7 @@ function Historie() {
                         data: data
                     }
                 ]}
-                height={600}
-                width={1500}
-                margin={{bottom: 50, top: 50}}
+                style={{height: "50vh", width: "80vw", marginTop: "50px", marginBottom: "50px"}}
             />
         )
     }
@@ -89,8 +87,8 @@ function Historie() {
         const windboeengeschwindigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.windboeengeschwindigkeit ?? null)
 
         return (
-            <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
-                <div style={{display: "flex", flexDirection: "row", justifyContent: "center", gap: "10px"}}>
+            <div style={{display: "flex", flexDirection: "column", gap: "50px", marginTop: "10px"}}>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "center", gap: "50px"}}>
                     <DateTimePicker
                         timezone="Europe/Paris"
                         label={"von"}

@@ -9,14 +9,12 @@ function App() {
     return (
         <>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
-                <div style={{display: "flex", flexDirection: "row", alignItems: "flex-start"}}>
-                    <header>
+                <div style={{display: "flex", flexDirection: "row", gap: "20px"}}>
+                    <div>
                         <NavigationBar/>
-                    </header>
-                    <div style={{flexGrow: 1}}>
-                        <main>
-                            <Outlet/>
-                        </main>
+                    </div>
+                    <div style={{maxHeight: "100vh", overflow: "auto"}}>
+                        <Outlet/>
                     </div>
                 </div>
             </LocalizationProvider>

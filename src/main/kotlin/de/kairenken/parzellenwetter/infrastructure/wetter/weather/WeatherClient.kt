@@ -12,12 +12,8 @@ import kotlinx.serialization.json.Json
 import org.json.JSONObject
 import org.springframework.stereotype.Service
 
-
-private const val WEATHER_DATA_URL =
-    "https://api.weather.com/v2/pws/observations/current?apiKey=7d73d43202e5423bb3d43202e5123ba4&stationId=IBREME20&format=json&units=m"
-
 @Service
-class WeatherClient() {
+class WeatherClient(private val weatherProperties: WeatherProperties) {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val jsonSerde = Json {
@@ -26,18 +22,22 @@ class WeatherClient() {
 
     fun fetchWeatherData(): Wetter {
         val request: HttpRequest = HttpRequest.newBuilder()
-            .uri(URI(WEATHER_DATA_URL))
+            .uri(URI(weatherProperties.url))
             .GET()
             .build()
 
         val client = HttpClient.newHttpClient()
 
-        val responseBody = JSONObject(
-            client.send(request, BodyHandlers.ofString()).body()
-        )
-            .getJSONArray("observations")
-            .getJSONObject(0)
-            .toString()
+        val responseBody = try {
+            JSONObject(
+                client.send(request, BodyHandlers.ofString()).body()
+            )
+                .getJSONArray("observations")
+                .getJSONObject(0)
+                .toString()
+        } catch (exception: Exception) {
+            throw FetchOfWeatherDataFailedException()
+        }
 
         val wetter: WeatherDto = jsonSerde.decodeFromString(responseBody)
 
@@ -60,3 +60,5 @@ class WeatherClient() {
         niederschlagGesamt = this.metric?.precipTotal
     )
 }
+
+class FetchOfWeatherDataFailedException() : Exception()

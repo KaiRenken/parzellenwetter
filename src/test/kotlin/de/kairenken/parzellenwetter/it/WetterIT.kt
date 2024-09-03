@@ -1,6 +1,6 @@
 package de.kairenken.parzellenwetter.it
 
-import de.kairenken.parzellenwetter.application.momentaufnahme.MomentaufnahmenUpdate
+import de.kairenken.parzellenwetter.application.wetter.WetterUpdate
 import de.kairenken.parzellenwetter.testcontainers.AbstractIntegrationTest
 import java.time.LocalDateTime
 import org.junit.jupiter.api.Test
@@ -10,22 +10,22 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 
 @AutoConfigureMockMvc
-class MomentaufnahmeIT : AbstractIntegrationTest() {
+class WetterIT : AbstractIntegrationTest() {
 
     @Autowired
     private lateinit var mockMvc: MockMvc
 
     @Autowired
-    private lateinit var momentaufnahmenUpdate: MomentaufnahmenUpdate
+    private lateinit var wetterUpdate: WetterUpdate
 
     @Test
-    fun `import and fetch momentaufnahmen successfully`() {
+    fun `import and fetch wetter successfully`() {
         // Prepare
         val now = LocalDateTime.now()
-        momentaufnahmenUpdate.updateMomentaufnahmen()
+        wetterUpdate.updateWetter()
 
         // Act & assert
-        val content = mockMvc.get("/api/momentaufnahme/?from=${now.minusSeconds(30L)}&to=${now.plusSeconds(30L)}")
+        val content = mockMvc.get("/api/wetter/?from=${now.minusSeconds(30L)}&to=${now.plusSeconds(30L)}")
             .andExpect {
                 status { isOk() }
             }
@@ -37,12 +37,12 @@ class MomentaufnahmeIT : AbstractIntegrationTest() {
     }
 
     @Test
-    fun `import and fetch momentaufnahmen with some values null`() {
+    fun `import and fetch wetter with some values null`() {
 
     }
 
     @Test
-    fun `import momentaufnahmen when server is not available`() {
+    fun `import wettter when server is not available`() {
 
     }
 }

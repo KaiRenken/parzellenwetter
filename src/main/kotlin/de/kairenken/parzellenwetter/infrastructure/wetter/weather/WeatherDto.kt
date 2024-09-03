@@ -1,4 +1,4 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.weather
+package de.kairenken.parzellenwetter.infrastructure.wetter.weather
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

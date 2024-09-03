@@ -1,4 +1,4 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.repository
+package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Entity
-@Table(name = "momentaufnahme")
-class MomentaufnahmeEntity(
+@Table(name = "wetter")
+class WetterEntity(
 
     @Id
     var id: UUID,

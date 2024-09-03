@@ -6,7 +6,7 @@ import {HttpClientResponse, httpGet} from "../utils/HttpClient.ts";
 import {LineChart} from "@mui/x-charts";
 import {DateTimePicker} from "@mui/x-date-pickers";
 
-type MomentaufnahmeDto = {
+type WetterDto = {
     id?: string,
     zeitpunkt: string,
     temperatur?: number,
@@ -28,21 +28,21 @@ dayjs.extend(timezone);
 function Historie() {
     const [lowerTimeBound, setLowerTimeBound] = useState<Date>(dayjs().subtract(1, 'day'))
     const [upperTimeBound, setUpperTimeBound] = useState<Date>(dayjs())
-    const [momentaufnahmen, setMomentaufnahmen] = useState<MomentaufnahmeDto[]>([]);
+    const [wetter, setWetter] = useState<WetterDto[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        getMomentaufnahmen()
+        getWetter()
     }, [lowerTimeBound, upperTimeBound]);
 
-    const getMomentaufnahmen = () => {
+    const getWetter = () => {
         let lowerTimeBoundString = lowerTimeBound.toISOString()
         let upperTimeBoundString = upperTimeBound.toISOString()
 
-        let path = `/api/momentaufnahme/?from=${lowerTimeBoundString}&to=${upperTimeBoundString}`;
-        httpGet<MomentaufnahmeDto[]>(path)
-            .then((response: HttpClientResponse<MomentaufnahmeDto[]>) => {
-                setMomentaufnahmen(response.data)
+        let path = `/api/wetter/?from=${lowerTimeBoundString}&to=${upperTimeBoundString}`;
+        httpGet<WetterDto[]>(path)
+            .then((response: HttpClientResponse<WetterDto[]>) => {
+                setWetter(response.data)
             })
             .finally(() => setLoading(false));
     }
@@ -72,19 +72,19 @@ function Historie() {
     const renderContent = () => {
         if (isLoading) return <div>Lädt Daten...</div>
 
-        const zeitpunkte = momentaufnahmen.map(momentaufnahme => new Date(momentaufnahme.zeitpunkt))
+        const zeitpunkte = wetter.map(wetter => new Date(wetter.zeitpunkt))
 
-        const temperaturen = momentaufnahmen.map(momentaufnahme => momentaufnahme.temperatur ?? null)
-        const taupunkte = momentaufnahmen.map(momentaufnahme => momentaufnahme.taupunkt ?? null)
-        const luftfeuchtigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.luftfeuchtigkeit ?? null)
-        const luftdruecke = momentaufnahmen.map(momentaufnahme => momentaufnahme.luftdruck ?? null)
-        const niederschlaege = momentaufnahmen.map(momentaufnahme => momentaufnahme.niederschlag ?? null)
-        const niederschlaegeDurchschnitt = momentaufnahmen.map(momentaufnahme => momentaufnahme.niederschlagGesamt ?? null)
-        const sonnenstrahlungen = momentaufnahmen.map(momentaufnahme => momentaufnahme.sonnenstrahlung ?? null)
-        const unIndizes = momentaufnahmen.map(momentaufnahme => momentaufnahme.uvIndex ?? null)
-        const windrichtungen = momentaufnahmen.map(momentaufnahme => momentaufnahme.windrichtung ?? null)
-        const windgeschwindigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.windgeschwindigkeit ?? null)
-        const windboeengeschwindigkeiten = momentaufnahmen.map(momentaufnahme => momentaufnahme.windboeengeschwindigkeit ?? null)
+        const temperaturen = wetter.map(wetter => wetter.temperatur ?? null)
+        const taupunkte = wetter.map(wetter => wetter.taupunkt ?? null)
+        const luftfeuchtigkeiten = wetter.map(wetter => wetter.luftfeuchtigkeit ?? null)
+        const luftdruecke = wetter.map(wetter => wetter.luftdruck ?? null)
+        const niederschlaege = wetter.map(wetter => wetter.niederschlag ?? null)
+        const niederschlaegeDurchschnitt = wetter.map(wetter => wetter.niederschlagGesamt ?? null)
+        const sonnenstrahlungen = wetter.map(wetter => wetter.sonnenstrahlung ?? null)
+        const unIndizes = wetter.map(wetter => wetter.uvIndex ?? null)
+        const windrichtungen = wetter.map(wetter => wetter.windrichtung ?? null)
+        const windgeschwindigkeiten = wetter.map(wetter => wetter.windgeschwindigkeit ?? null)
+        const windboeengeschwindigkeiten = wetter.map(wetter => wetter.windboeengeschwindigkeit ?? null)
 
         return (
             <div style={{display: "flex", flexDirection: "column", gap: "50px", marginTop: "10px"}}>

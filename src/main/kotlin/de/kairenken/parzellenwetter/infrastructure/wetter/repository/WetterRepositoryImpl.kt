@@ -1,29 +1,29 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.repository
+package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 
-import de.kairenken.parzellenwetter.domain.momentaufnahme.Momentaufnahme
-import de.kairenken.parzellenwetter.domain.momentaufnahme.MomentaufnahmeRepository
-import de.kairenken.parzellenwetter.infrastructure.momentaufnahme.weather.WeatherClient
+import de.kairenken.parzellenwetter.domain.wetter.Wetter
+import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
+import de.kairenken.parzellenwetter.infrastructure.wetter.weather.WeatherClient
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service
 
 @Service
-class MomentaufnahmeRepositoryImpl(
-    private val momentaufnahmeJpaRepository: MomentaufnahmeJpaRepository,
+class WetterRepositoryImpl(
+    private val wetterJpaRepository: WetterJpaRepository,
     private val weatherDataCrawler: WeatherClient
-) : MomentaufnahmeRepository {
+) : WetterRepository {
 
-    override fun holeMomentaufnahmen(von: LocalDateTime, bis: LocalDateTime): List<Momentaufnahme> =
-        momentaufnahmeJpaRepository
+    override fun holeWetter(von: LocalDateTime, bis: LocalDateTime): List<Wetter> =
+        wetterJpaRepository
             .findAllByZeitpunktBetweenOrderByZeitpunkt(from = von, to = bis)
             .map { it.toDomain() }
 
-    override fun holeAktuelleMomentaufnahme(): Momentaufnahme = weatherDataCrawler.fetchWeatherData()
+    override fun holeAktuellesWetter(): Wetter = weatherDataCrawler.fetchWeatherData()
 
-    override fun speichereMomentaufnahme(momentaufnahme: Momentaufnahme) {
-        momentaufnahmeJpaRepository.save(momentaufnahme.mapToEntity())
+    override fun speichereWetter(wetter: Wetter) {
+        wetterJpaRepository.save(wetter.mapToEntity())
     }
 
-    private fun MomentaufnahmeEntity.toDomain(): Momentaufnahme = Momentaufnahme(
+    private fun WetterEntity.toDomain(): Wetter = Wetter(
         id = this.id,
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,
@@ -39,7 +39,7 @@ class MomentaufnahmeRepositoryImpl(
         niederschlagGesamt = this.niederschlagGesamt
     )
 
-    private fun Momentaufnahme.mapToEntity() = MomentaufnahmeEntity(
+    private fun Wetter.mapToEntity() = WetterEntity(
         id = this.id,
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,

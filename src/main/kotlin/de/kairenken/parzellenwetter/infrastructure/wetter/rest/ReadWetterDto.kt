@@ -1,9 +1,9 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.rest
+package de.kairenken.parzellenwetter.infrastructure.wetter.rest
 
 import java.time.LocalDateTime
 import java.util.UUID
 
-class ReadMomentaufnahmeDto(
+class ReadWetterDto(
     val id: UUID,
     val zeitpunkt: LocalDateTime,
     val temperatur: Int?,

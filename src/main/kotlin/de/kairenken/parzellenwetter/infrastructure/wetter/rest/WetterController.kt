@@ -1,7 +1,7 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.rest
+package de.kairenken.parzellenwetter.infrastructure.wetter.rest
 
-import de.kairenken.parzellenwetter.domain.momentaufnahme.Momentaufnahme
-import de.kairenken.parzellenwetter.domain.momentaufnahme.MomentaufnahmeRepository
+import de.kairenken.parzellenwetter.domain.wetter.Wetter
+import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
 import java.time.LocalDateTime
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/momentaufnahme")
-class MomentaufnahmeController(private val momentaufnahmeRepository: MomentaufnahmeRepository) {
+@RequestMapping("/api/wetter")
+class WetterController(private val wetterRepository: WetterRepository) {
 
     @GetMapping("/")
-    fun getMomentaufnahmenBetween(
+    fun getWetterBetween(
         @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) from: LocalDateTime,
         @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) to: LocalDateTime
-    ): ResponseEntity<List<ReadMomentaufnahmeDto>> =
-        momentaufnahmeRepository.holeMomentaufnahmen(von = from.plusHours(2L), bis = to.plusHours(2L))
+    ): ResponseEntity<List<ReadWetterDto>> =
+        wetterRepository.holeWetter(von = from.plusHours(2L), bis = to.plusHours(2L))
             .map { it.toReadDto() }
             .wrapItInResponse()
 
-    private fun Momentaufnahme.toReadDto() = ReadMomentaufnahmeDto(
+    private fun Wetter.toReadDto() = ReadWetterDto(
         id = this.id,
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,
@@ -39,6 +39,6 @@ class MomentaufnahmeController(private val momentaufnahmeRepository: Momentaufna
         niederschlagGesamt = this.niederschlagGesamt
     )
 
-    private fun List<ReadMomentaufnahmeDto>.wrapItInResponse(): ResponseEntity<List<ReadMomentaufnahmeDto>> =
+    private fun List<ReadWetterDto>.wrapItInResponse(): ResponseEntity<List<ReadWetterDto>> =
         ResponseEntity.ok(this)
 }

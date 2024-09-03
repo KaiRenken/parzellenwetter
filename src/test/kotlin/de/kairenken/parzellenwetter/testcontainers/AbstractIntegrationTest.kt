@@ -1,6 +1,6 @@
 package de.kairenken.parzellenwetter.testcontainers
 
-import de.kairenken.parzellenwetter.infrastructure.momentaufnahme.repository.MomentaufnahmeJpaRepository
+import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterJpaRepository
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,10 +18,10 @@ import org.springframework.test.context.ContextConfiguration
 abstract class AbstractIntegrationTest {
 
     @Autowired
-    protected lateinit var momentaufnahmeJpaRepository: MomentaufnahmeJpaRepository
+    protected lateinit var wetterJpaRepository: WetterJpaRepository
 
     @BeforeEach
     fun setUp() {
-        momentaufnahmeJpaRepository.deleteAll()
+        wetterJpaRepository.deleteAll()
     }
 }

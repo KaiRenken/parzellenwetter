@@ -1,6 +1,6 @@
-package de.kairenken.parzellenwetter.infrastructure.momentaufnahme.weather
+package de.kairenken.parzellenwetter.infrastructure.wetter.weather
 
-import de.kairenken.parzellenwetter.domain.momentaufnahme.Momentaufnahme
+import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -24,7 +24,7 @@ class WeatherClient() {
         ignoreUnknownKeys = true
     }
 
-    fun fetchWeatherData(): Momentaufnahme {
+    fun fetchWeatherData(): Wetter {
         val request: HttpRequest = HttpRequest.newBuilder()
             .uri(URI(WEATHER_DATA_URL))
             .GET()
@@ -39,12 +39,12 @@ class WeatherClient() {
             .getJSONObject(0)
             .toString()
 
-        val momentaufnahme: WeatherDto = jsonSerde.decodeFromString(responseBody)
+        val wetter: WeatherDto = jsonSerde.decodeFromString(responseBody)
 
-        return momentaufnahme.mapToDomain()
+        return wetter.mapToDomain()
     }
 
-    private fun WeatherDto.mapToDomain() = Momentaufnahme(
+    private fun WeatherDto.mapToDomain() = Wetter(
         id = UUID.randomUUID(),
         zeitpunkt = LocalDateTime.parse(this.obsTimeLocal, dateTimeFormatter),
         sonnenstrahlung = this.solarRadiation,

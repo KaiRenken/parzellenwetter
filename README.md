@@ -44,3 +44,9 @@ $ docker compose up
 ```
 
 Access UI via [http://localhost:8080/gui](http://localhost:8080/gui)
+
+### Run tests
+
+```sh
+$ mvn clean verify
+```

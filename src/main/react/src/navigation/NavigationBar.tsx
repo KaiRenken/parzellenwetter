@@ -9,14 +9,14 @@ const NavigationBar = () => {
             <List>
                 <ListItem key={"historie"} disablePadding>
                     <Link to={createRouterPath("historie")} style={{width: "inherit"}}>
-                        <ListItemButton>
+                        <ListItemButton style={{color: "rgb(70, 70, 70)"}}>
                             Historie
                         </ListItemButton>
                     </Link>
                 </ListItem>
                 <ListItem key={"statistik"} disablePadding>
                     <Link to={createRouterPath("statistik")} style={{width: "inherit"}}>
-                        <ListItemButton>
+                        <ListItemButton style={{color: "rgb(70, 70, 70)"}}>
                             Statistik
                         </ListItemButton>
                     </Link>

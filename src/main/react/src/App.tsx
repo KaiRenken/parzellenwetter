@@ -10,7 +10,7 @@ function App() {
         <>
             <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                 <div style={{display: "flex", flexDirection: "row", gap: "20px"}}>
-                    <div>
+                    <div style={{backgroundColor: "rgb(250,250,250)"}}>
                         <NavigationBar/>
                     </div>
                     <div style={{maxHeight: "100vh", overflow: "auto"}}>

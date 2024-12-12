@@ -8,18 +8,18 @@ const NavigationBar = () => {
         <Box style={{width: "15em"}}>
             <List>
                 <ListItem key={"historie"} disablePadding>
-                    <ListItemButton>
-                        <Link to={createRouterPath("historie")}>
+                    <Link to={createRouterPath("historie")} style={{width: "inherit"}}>
+                        <ListItemButton>
                             Historie
-                        </Link>
-                    </ListItemButton>
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
                 <ListItem key={"statistik"} disablePadding>
-                    <ListItemButton>
-                        <Link to={createRouterPath("statistik")}>
+                    <Link to={createRouterPath("statistik")} style={{width: "inherit"}}>
+                        <ListItemButton>
                             Statistik
-                        </Link>
-                    </ListItemButton>
+                        </ListItemButton>
+                    </Link>
                 </ListItem>
             </List>
         </Box>

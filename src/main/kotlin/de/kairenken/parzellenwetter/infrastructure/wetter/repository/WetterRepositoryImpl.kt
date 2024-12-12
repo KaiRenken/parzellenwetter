@@ -2,7 +2,7 @@ package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 
 import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
-import de.kairenken.parzellenwetter.infrastructure.wetter.weather.WetterClient
+import de.kairenken.parzellenwetter.infrastructure.wetter.client.WetterClient
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service
 
@@ -17,7 +17,7 @@ class WetterRepositoryImpl(
             .findAllByZeitpunktBetweenOrderByZeitpunkt(from = von, to = bis)
             .map { it.toDomain() }
 
-    override fun holeAktuellesWetter(): Wetter = wetterClient.fetchWeatherData()
+    override fun holeAktuellesWetter(): Wetter = wetterClient.fetchWetterData()
 
     override fun speichereWetter(wetter: Wetter) {
         wetterJpaRepository.save(wetter.mapToEntity())

@@ -15,10 +15,10 @@ internal class WetterUpdateSchedulerTest {
     private val wetterUpdateSchedulerToTest = WetterUpdateScheduler(wetterUpdateMock)
 
     @Test
-    fun `schedule update weather successfully`() {
+    fun `schedule update Wetter successfully`() {
         every { wetterUpdateMock.updateWetter() } just Runs
 
-        wetterUpdateSchedulerToTest.scheduleUpdateWeatherData()
+        wetterUpdateSchedulerToTest.scheduleUpdateWetterData()
 
         verify(exactly = 1) { wetterUpdateMock.updateWetter() }
     }

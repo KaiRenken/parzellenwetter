@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class WetterUpdateScheduler(private val wetterUpdate: WetterUpdate) {
 
     @Scheduled(cron = "\${schedule.update.cron}")
-    fun scheduleUpdateWeatherData() {
+    fun scheduleUpdateWetterData() {
         wetterUpdate.updateWetter()
     }
 }

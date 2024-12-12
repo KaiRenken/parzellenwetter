@@ -1,7 +1,7 @@
 package de.kairenken.parzellenwetter.it
 
 import de.kairenken.parzellenwetter.application.wetter.WetterUpdate
-import de.kairenken.parzellenwetter.infrastructure.wetter.weather.FetchOfWeatherDataFailedException
+import de.kairenken.parzellenwetter.infrastructure.wetter.client.FetchOfWetterDataFailedException
 import de.kairenken.parzellenwetter.testcontainers.AbstractIntegrationTest
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
@@ -26,7 +26,7 @@ class WetterIT : AbstractIntegrationTest() {
 
     @Test
     fun `import and fetch wetter successfully`() {
-        val weatherApiResponse = """
+        val wetterApiResponse = """
             {
               "observations": [
                 {
@@ -68,7 +68,7 @@ class WetterIT : AbstractIntegrationTest() {
             HttpRequest.request()
                 .withMethod("GET")
         )
-            .respond(HttpResponse.response().withStatusCode(200).withBody(weatherApiResponse))
+            .respond(HttpResponse.response().withStatusCode(200).withBody(wetterApiResponse))
 
         wetterUpdate.updateWetter()
 
@@ -107,7 +107,7 @@ class WetterIT : AbstractIntegrationTest() {
 
     @Test
     fun `import and fetch wetter with some values null`() {
-        val weatherApiResponse = """
+        val wetterApiResponse = """
             {
               "observations": [
                 {
@@ -147,7 +147,7 @@ class WetterIT : AbstractIntegrationTest() {
             HttpRequest.request()
                 .withMethod("GET")
         )
-            .respond(HttpResponse.response().withStatusCode(200).withBody(weatherApiResponse))
+            .respond(HttpResponse.response().withStatusCode(200).withBody(wetterApiResponse))
 
         wetterUpdate.updateWetter()
 
@@ -192,7 +192,7 @@ class WetterIT : AbstractIntegrationTest() {
         )
             .respond(HttpResponse.response().withStatusCode(500))
 
-        shouldThrowExactly<FetchOfWeatherDataFailedException> { wetterUpdate.updateWetter() }
+        shouldThrowExactly<FetchOfWetterDataFailedException> { wetterUpdate.updateWetter() }
 
         wetterJpaRepository.count() shouldBe 0
     }

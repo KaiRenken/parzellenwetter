@@ -1,4 +1,4 @@
-package de.kairenken.parzellenwetter.infrastructure.wetter.weather
+package de.kairenken.parzellenwetter.infrastructure.wetter.client
 
 import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import java.net.URI
@@ -13,16 +13,16 @@ import org.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Service
-class WetterClient(private val weatherProperties: WeatherProperties) {
+class WetterClient(private val wetterProperties: WetterProperties) {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val jsonSerde = Json {
         ignoreUnknownKeys = true
     }
 
-    fun fetchWeatherData(): Wetter {
+    fun fetchWetterData(): Wetter {
         val request: HttpRequest = HttpRequest.newBuilder()
-            .uri(URI(weatherProperties.url))
+            .uri(URI(wetterProperties.url))
             .GET()
             .build()
 
@@ -36,15 +36,15 @@ class WetterClient(private val weatherProperties: WeatherProperties) {
                 .getJSONObject(0)
                 .toString()
         } catch (exception: Exception) {
-            throw FetchOfWeatherDataFailedException()
+            throw FetchOfWetterDataFailedException()
         }
 
-        val wetter: WeatherDto = jsonSerde.decodeFromString(responseBody)
+        val wetter: FetchWetterDto = jsonSerde.decodeFromString(responseBody)
 
         return wetter.mapToDomain()
     }
 
-    private fun WeatherDto.mapToDomain() = Wetter(
+    private fun FetchWetterDto.mapToDomain() = Wetter(
         id = UUID.randomUUID(),
         zeitpunkt = LocalDateTime.parse(this.obsTimeLocal, dateTimeFormatter),
         sonnenstrahlung = this.solarRadiation,
@@ -61,4 +61,4 @@ class WetterClient(private val weatherProperties: WeatherProperties) {
     )
 }
 
-class FetchOfWeatherDataFailedException() : Exception()
+class FetchOfWetterDataFailedException : Exception()

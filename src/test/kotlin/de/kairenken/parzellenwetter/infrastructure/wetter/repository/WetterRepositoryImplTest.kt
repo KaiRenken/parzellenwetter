@@ -22,7 +22,7 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
 
     @Test
     fun `hole aktuelles Wetter`() {
-        every { wetterClientMock.fetchWeatherData() } returns wetterFixture
+        every { wetterClientMock.fetchWetterData() } returns wetterFixture
 
         wetterRepositoryImplToTest.holeAktuellesWetter() shouldBe wetterFixture
     }

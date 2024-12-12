@@ -3,7 +3,7 @@ package de.kairenken.parzellenwetter.testcontainers
 import com.ninjasquad.springmockk.MockkBean
 import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterJpaRepository
 import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterRepositoryImpl
-import de.kairenken.parzellenwetter.infrastructure.wetter.weather.WetterClient
+import de.kairenken.parzellenwetter.infrastructure.wetter.client.WetterClient
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase

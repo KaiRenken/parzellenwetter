@@ -1,10 +1,10 @@
-package de.kairenken.parzellenwetter.infrastructure.wetter.weather
+package de.kairenken.parzellenwetter.infrastructure.wetter.client
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class WeatherDto(
+class FetchWetterDto(
 
     @SerialName("obsTimeLocal") var obsTimeLocal: String,
 

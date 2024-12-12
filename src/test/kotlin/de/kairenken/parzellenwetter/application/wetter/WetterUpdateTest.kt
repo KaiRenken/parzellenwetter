@@ -11,9 +11,9 @@ import org.junit.jupiter.api.Test
 
 internal class WetterUpdateTest {
 
-    val wetterRepositoryMock = mockk<WetterRepository>()
+    private val wetterRepositoryMock = mockk<WetterRepository>()
 
-    val wetterUpdateToTest = WetterUpdate(wetterRepositoryMock)
+    private val wetterUpdateToTest = WetterUpdate(wetterRepositoryMock)
 
     @Test
     fun `update Wetter successfully`() {

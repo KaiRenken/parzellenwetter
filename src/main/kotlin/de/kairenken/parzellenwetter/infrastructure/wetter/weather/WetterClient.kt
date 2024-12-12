@@ -13,7 +13,7 @@ import org.json.JSONObject
 import org.springframework.stereotype.Service
 
 @Service
-class WeatherClient(private val weatherProperties: WeatherProperties) {
+class WetterClient(private val weatherProperties: WeatherProperties) {
 
     private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private val jsonSerde = Json {

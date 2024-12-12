@@ -3,7 +3,7 @@ package de.kairenken.parzellenwetter.domain.wetter
 import java.time.LocalDateTime
 import java.util.UUID
 
-class Wetter(
+data class Wetter(
     val id: UUID,
     val zeitpunkt: LocalDateTime,
     val temperatur: Int?,

@@ -9,7 +9,7 @@ import java.util.UUID
 
 @Entity
 @Table(name = "wetter")
-class WetterEntity(
+data class WetterEntity(
 
     @Id
     var id: UUID,

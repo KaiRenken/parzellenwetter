@@ -1,6 +1,7 @@
 package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 
 import de.kairenken.parzellenwetter.domain.wetter.wetterFixture
+import de.kairenken.parzellenwetter.domain.wetter.wetterIdFixture
 import de.kairenken.parzellenwetter.testcontainers.AbstractDatabaseTest
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
@@ -55,8 +56,8 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
                 von = wetterEntityFixture.zeitpunkt.plusMinutes(1L),
                 bis = wetterEntityFixture.zeitpunkt.plusMinutes(5L)
             ) shouldBe listOf(
-                wetterFixture.copy(id = wetterToFind1.id, zeitpunkt = wetterToFind1.zeitpunkt),
-                wetterFixture.copy(id = wetterToFind2.id, zeitpunkt = wetterToFind2.zeitpunkt)
+                wetterFixture.copy(id = wetterIdFixture.copy(wetterToFind1.id), zeitpunkt = wetterToFind1.zeitpunkt),
+                wetterFixture.copy(id = wetterIdFixture.copy(wetterToFind2.id), zeitpunkt = wetterToFind2.zeitpunkt)
             )
         }
 

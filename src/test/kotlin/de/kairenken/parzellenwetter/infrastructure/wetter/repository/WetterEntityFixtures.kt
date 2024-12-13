@@ -3,7 +3,7 @@ package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 import de.kairenken.parzellenwetter.domain.wetter.wetterFixture
 
 val wetterEntityFixture = WetterEntity(
-    id = wetterFixture.id,
+    id = wetterFixture.id.value,
     zeitpunkt = wetterFixture.zeitpunkt,
     temperatur = wetterFixture.temperatur,
     luftfeuchtigkeit = wetterFixture.luftfeuchtigkeit,

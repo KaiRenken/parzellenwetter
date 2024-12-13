@@ -24,7 +24,7 @@ class WetterRepositoryImpl(
     }
 
     private fun WetterEntity.toDomain(): Wetter = Wetter(
-        id = this.id,
+        id = Wetter.Id(this.id),
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,
         luftfeuchtigkeit = this.luftfeuchtigkeit,
@@ -40,7 +40,7 @@ class WetterRepositoryImpl(
     )
 
     private fun Wetter.mapToEntity() = WetterEntity(
-        id = this.id,
+        id = this.id.value,
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,
         luftfeuchtigkeit = this.luftfeuchtigkeit,

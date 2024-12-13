@@ -24,7 +24,7 @@ class WetterController(private val wetterRepository: WetterRepository) {
             .wrapItInResponse()
 
     private fun Wetter.toReadDto() = ReadWetterDto(
-        id = this.id,
+        id = this.id.value,
         zeitpunkt = this.zeitpunkt,
         temperatur = this.temperatur,
         luftfeuchtigkeit = this.luftfeuchtigkeit,

@@ -45,7 +45,6 @@ class WetterClient(private val wetterProperties: WetterProperties) {
     }
 
     private fun FetchWetterDto.mapToDomain() = Wetter(
-        id = UUID.randomUUID(),
         zeitpunkt = LocalDateTime.parse(this.obsTimeLocal, dateTimeFormatter),
         sonnenstrahlung = this.solarRadiation,
         uvIndex = this.uv,

@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class Wetter(
-    val id: UUID,
+    val id: UUID = UUID.randomUUID(),
     val zeitpunkt: LocalDateTime,
     val temperatur: Int?,
     val luftfeuchtigkeit: Int?,

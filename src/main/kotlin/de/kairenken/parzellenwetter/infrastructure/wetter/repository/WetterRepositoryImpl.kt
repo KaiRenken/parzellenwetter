@@ -3,6 +3,7 @@ package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
 import de.kairenken.parzellenwetter.infrastructure.wetter.client.WetterClient
+import de.kairenken.parzellenwetter.infrastructure.wetter.repository.entity.WetterEntity
 import java.time.LocalDateTime
 import org.springframework.stereotype.Service
 
@@ -21,6 +22,18 @@ class WetterRepositoryImpl(
 
     override fun speichereWetter(wetter: Wetter) {
         wetterJpaRepository.save(wetter.mapToEntity())
+    }
+
+    override fun holeExtremTemperatur(von: LocalDateTime, bis: LocalDateTime): Pair<Wetter?, Wetter?> {
+        val minimalTemperatur = wetterJpaRepository
+            .findFirstByZeitpunktBetweenOrderByTemperaturAsc(from = von, to = bis)
+            ?.toDomain()
+
+        val maximalTemperatur = wetterJpaRepository
+            .findFirstByZeitpunktBetweenOrderByTemperaturDesc(from = von, to = bis)
+            ?.toDomain()
+
+        return Pair(minimalTemperatur, maximalTemperatur)
     }
 
     private fun WetterEntity.toDomain(): Wetter = Wetter(

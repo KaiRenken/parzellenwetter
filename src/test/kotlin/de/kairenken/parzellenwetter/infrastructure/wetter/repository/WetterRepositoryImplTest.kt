@@ -71,4 +71,73 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
             ).shouldBeEmpty()
         }
     }
+
+    @Nested
+    @DisplayName("Hole ExtremTemperatur")
+    inner class HoleExtremTemperaturTest {
+
+        @Test
+        fun erfolgreich() {
+            val wetterToIgnore1 = wetterEntityFixture.copy(
+                temperatur = 0
+            )
+            val wetterToIgnore2 = wetterEntityFixture.copy(
+                id = UUID.randomUUID(),
+                temperatur = 3,
+                zeitpunkt = wetterEntityFixture.zeitpunkt.plusMinutes(2L)
+            )
+            val wetterMaximumToFind = wetterEntityFixture.copy(
+                temperatur = 9,
+                id = UUID.randomUUID(),
+                zeitpunkt = wetterEntityFixture.zeitpunkt.plusMinutes(4L)
+            )
+            val wetterMinimumToFind = wetterEntityFixture.copy(
+                temperatur = 1,
+                id = UUID.randomUUID(),
+                zeitpunkt = wetterEntityFixture.zeitpunkt.plusMinutes(6L)
+            )
+            val wetterToIgnore3 = wetterEntityFixture.copy(
+                temperatur = 4,
+                id = UUID.randomUUID(),
+                zeitpunkt = wetterEntityFixture.zeitpunkt.plusMinutes(8L)
+            )
+            val wetterToIgnore4 = wetterEntityFixture.copy(
+                temperatur = 10,
+                id = UUID.randomUUID(),
+                zeitpunkt = wetterEntityFixture.zeitpunkt.plusMinutes(8L)
+            )
+            wetterJpaRepository.save(wetterMaximumToFind)
+            wetterJpaRepository.save(wetterMinimumToFind)
+            wetterJpaRepository.save(wetterToIgnore1)
+            wetterJpaRepository.save(wetterToIgnore2)
+            wetterJpaRepository.save(wetterToIgnore3)
+            wetterJpaRepository.save(wetterToIgnore4)
+
+            wetterRepositoryImplToTest.holeExtremTemperatur(
+                von = wetterEntityFixture.zeitpunkt.plusMinutes(3L),
+                bis = wetterEntityFixture.zeitpunkt.plusMinutes(7L)
+            ) shouldBe Pair(
+                wetterFixture.copy(
+                    id = wetterIdFixture.copy(wetterMinimumToFind.id),
+                    zeitpunkt = wetterMinimumToFind.zeitpunkt,
+                    temperatur = wetterMinimumToFind.temperatur
+                ),
+                wetterFixture.copy(
+                    id = wetterIdFixture.copy(wetterMaximumToFind.id),
+                    zeitpunkt = wetterMaximumToFind.zeitpunkt,
+                    temperatur = wetterMaximumToFind.temperatur
+                )
+            )
+        }
+
+        @Test
+        fun `ohne Daten`() {
+            wetterJpaRepository.save(wetterEntityFixture)
+
+            wetterRepositoryImplToTest.holeExtremTemperatur(
+                von = wetterEntityFixture.zeitpunkt.plusMinutes(1L),
+                bis = wetterEntityFixture.zeitpunkt.plusMinutes(5L)
+            ) shouldBe Pair(null, null)
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package de.kairenken.parzellenwetter.infrastructure.wetter.repository
 
 import de.kairenken.parzellenwetter.domain.wetter.wetterFixture
+import de.kairenken.parzellenwetter.infrastructure.wetter.repository.entity.WetterEntity
 
 val wetterEntityFixture = WetterEntity(
     id = wetterFixture.id.value,

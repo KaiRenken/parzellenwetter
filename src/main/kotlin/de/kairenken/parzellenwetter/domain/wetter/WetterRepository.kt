@@ -11,4 +11,6 @@ interface WetterRepository {
     fun holeAktuellesWetter(): Wetter
 
     fun speichereWetter(wetter: Wetter)
+
+    fun holeExtremTemperatur(von: LocalDateTime, bis: LocalDateTime): Pair<Wetter?, Wetter?>
 }

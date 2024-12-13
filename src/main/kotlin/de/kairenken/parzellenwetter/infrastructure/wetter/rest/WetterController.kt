@@ -2,6 +2,8 @@ package de.kairenken.parzellenwetter.infrastructure.wetter.rest
 
 import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
+import de.kairenken.parzellenwetter.infrastructure.wetter.rest.dto.ReadExtremwerteDto
+import de.kairenken.parzellenwetter.infrastructure.wetter.rest.dto.ReadWetterDto
 import java.time.LocalDateTime
 import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
@@ -22,6 +24,14 @@ class WetterController(private val wetterRepository: WetterRepository) {
         wetterRepository.holeWetter(von = from.plusHours(2L), bis = to.plusHours(2L))
             .map { it.toReadDto() }
             .wrapItInResponse()
+
+    @GetMapping("/extremwerte/")
+    fun getExtremwerte(
+        @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) from: LocalDateTime,
+        @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) to: LocalDateTime
+    ): ResponseEntity<ReadExtremwerteDto> {
+        TODO("Implement me!")
+    }
 
     private fun Wetter.toReadDto() = ReadWetterDto(
         id = this.id.value,

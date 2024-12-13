@@ -1,4 +1,4 @@
-package de.kairenken.parzellenwetter.infrastructure.wetter.rest
+package de.kairenken.parzellenwetter.infrastructure.wetter.rest.dto
 
 import java.time.LocalDateTime
 import java.util.UUID

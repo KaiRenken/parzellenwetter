@@ -1,5 +1,7 @@
 package de.kairenken.parzellenwetter.infrastructure.wetter.rest
 
+import de.kairenken.parzellenwetter.application.wetter.ExtremwertSuche
+import de.kairenken.parzellenwetter.application.wetter.dto.ExtremwerteDto
 import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
 import de.kairenken.parzellenwetter.infrastructure.wetter.rest.dto.ReadExtremwerteDto
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/wetter")
-class WetterController(private val wetterRepository: WetterRepository) {
+class WetterController(private val wetterRepository: WetterRepository, private val extremwertSuche: ExtremwertSuche) {
 
     @GetMapping("/")
     fun getWetterBetween(
@@ -29,9 +31,10 @@ class WetterController(private val wetterRepository: WetterRepository) {
     fun getExtremwerte(
         @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) from: LocalDateTime,
         @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) to: LocalDateTime
-    ): ResponseEntity<ReadExtremwerteDto> {
-        TODO("Implement me!")
-    }
+    ): ResponseEntity<ReadExtremwerteDto> = extremwertSuche
+        .holeExtremwerte(von = from.plusHours(2L), bis = to.plusHours(2L))
+        .toReadExtremwerteDto()
+        .wrapItInOkResponse()
 
     private fun Wetter.toReadDto() = ReadWetterDto(
         id = this.id.value,
@@ -47,6 +50,20 @@ class WetterController(private val wetterRepository: WetterRepository) {
         uvIndex = this.uvIndex,
         niederschlag = this.niederschlag,
         niederschlagGesamt = this.niederschlagGesamt
+    )
+
+    private fun ExtremwerteDto.toReadExtremwerteDto() = ReadExtremwerteDto(
+        temperatur = ReadExtremwerteDto.ExtremTemperaturDto(
+            minimum = if (this.extremTemperaturen.first != null) {
+                ReadExtremwerteDto.TemperaturDto(
+                    wert = this.extremTemperaturen.first.temperatur,
+                    zeitpunkt = this.extremTemperaturen.first.zeitpunkt,
+                    wetterId = this.extremTemperaturen.first.id.value
+                )
+            } else null,
+            maximum = this.extremTemperaturen.second,
+            zeitpunkt = this.extremTemperaturen.
+        )
     )
 
     private fun List<ReadWetterDto>.wrapItInResponse(): ResponseEntity<List<ReadWetterDto>> =

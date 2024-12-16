@@ -113,7 +113,7 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
             wetterJpaRepository.save(wetterToIgnore3)
             wetterJpaRepository.save(wetterToIgnore4)
 
-            wetterRepositoryImplToTest.holeExtremTemperatur(
+            wetterRepositoryImplToTest.holeExtremTemperaturen(
                 von = wetterEntityFixture.zeitpunkt.plusMinutes(3L),
                 bis = wetterEntityFixture.zeitpunkt.plusMinutes(7L)
             ) shouldBe Pair(
@@ -134,7 +134,7 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
         fun `ohne Daten`() {
             wetterJpaRepository.save(wetterEntityFixture)
 
-            wetterRepositoryImplToTest.holeExtremTemperatur(
+            wetterRepositoryImplToTest.holeExtremTemperaturen(
                 von = wetterEntityFixture.zeitpunkt.plusMinutes(1L),
                 bis = wetterEntityFixture.zeitpunkt.plusMinutes(5L)
             ) shouldBe Pair(null, null)

@@ -1,5 +1,6 @@
 package de.kairenken.parzellenwetter.testcontainers
 
+import de.kairenken.parzellenwetter.infrastructure.notiz.repository.NotizJpaRepository
 import de.kairenken.parzellenwetter.infrastructure.wetter.client.WetterProperties
 import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterJpaRepository
 import org.junit.jupiter.api.BeforeAll
@@ -24,6 +25,9 @@ abstract class AbstractIntegrationTest {
     protected lateinit var wetterJpaRepository: WetterJpaRepository
 
     @Autowired
+    protected lateinit var notizJpaRepository: NotizJpaRepository
+
+    @Autowired
     protected lateinit var wetterProperties: WetterProperties
 
     protected lateinit var mockServerClient: MockServerClient
@@ -38,5 +42,6 @@ abstract class AbstractIntegrationTest {
     fun setUp() {
         mockServerClient.reset()
         wetterJpaRepository.deleteAll()
+        notizJpaRepository.deleteAll()
     }
 }

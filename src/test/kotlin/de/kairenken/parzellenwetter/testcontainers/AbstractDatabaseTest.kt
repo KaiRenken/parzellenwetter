@@ -1,8 +1,8 @@
 package de.kairenken.parzellenwetter.testcontainers
 
 import com.ninjasquad.springmockk.MockkBean
-import de.kairenken.parzellenwetter.infrastructure.notiz.NotizJpaRepository
-import de.kairenken.parzellenwetter.infrastructure.notiz.NotizRepositoryImpl
+import de.kairenken.parzellenwetter.infrastructure.notiz.repository.NotizJpaRepository
+import de.kairenken.parzellenwetter.infrastructure.notiz.repository.NotizRepositoryImpl
 import de.kairenken.parzellenwetter.infrastructure.wetter.client.WetterClient
 import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterJpaRepository
 import de.kairenken.parzellenwetter.infrastructure.wetter.repository.WetterRepositoryImpl

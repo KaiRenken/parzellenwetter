@@ -1,4 +1,4 @@
-package de.kairenken.parzellenwetter.infrastructure.notiz.entity
+package de.kairenken.parzellenwetter.infrastructure.notiz.repository.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

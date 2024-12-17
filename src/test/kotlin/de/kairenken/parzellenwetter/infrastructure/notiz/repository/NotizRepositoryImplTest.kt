@@ -1,8 +1,8 @@
 package de.kairenken.parzellenwetter.infrastructure.notiz.repository
 
 import de.kairenken.parzellenwetter.domain.notiz.notizFixture
-import de.kairenken.parzellenwetter.infrastructure.notiz.NotizRepositoryImpl
 import de.kairenken.parzellenwetter.testcontainers.AbstractDatabaseTest
+import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,5 +19,12 @@ internal class NotizRepositoryImplTest : AbstractDatabaseTest() {
         notizJpaRepository.count() shouldBe 1
 
         notizJpaRepository.findAll().first() shouldBe notizEntityFixture
+    }
+
+    @Test
+    fun `hole alle Notizen`() {
+        notizJpaRepository.save(notizEntityFixture)
+
+        notizRepositoryImplToTest.holeAlle().shouldContainExactlyInAnyOrder(notizFixture)
     }
 }

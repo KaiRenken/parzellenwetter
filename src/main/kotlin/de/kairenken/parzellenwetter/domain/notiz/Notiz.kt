@@ -21,7 +21,7 @@ data class Notiz(
         companion object {
             operator fun invoke(name: String): ErzeugungsErgebnis<Verfasser> = when (val validationResult = validate {
                 require(name.isNotBlank()) { "Notiz.Verfasser darf nicht leer sein" }
-                require(name.length <= 100) { "Notiz.Verfasser hat '${name.length} Zeichen, darf aber höchstens 100 haben.'" }
+                require(name.length <= 100) { "Notiz.Verfasser hat ${name.length} Zeichen, darf aber höchstens 100 haben." }
             }) {
                 is ValidationUtil.Error -> UngueltigeArgumente(validationResult.errors)
                 ValidationUtil.Success -> Erzeugt(Verfasser(name))
@@ -35,7 +35,7 @@ data class Notiz(
         companion object {
             operator fun invoke(value: String): ErzeugungsErgebnis<Nachricht> = when (val validationResult = validate {
                 require(value.isNotBlank()) { "Notiz.Nachricht darf nicht leer sein" }
-                require(value.length <= 1000) { "Notiz.Nachricht hat '${value.length} Zeichen, darf aber höchstens 1000 haben.'" }
+                require(value.length <= 1000) { "Notiz.Nachricht hat ${value.length} Zeichen, darf aber höchstens 1000 haben." }
             }) {
                 is ValidationUtil.Error -> UngueltigeArgumente(validationResult.errors)
                 ValidationUtil.Success -> Erzeugt(Nachricht(value))
@@ -46,4 +46,22 @@ data class Notiz(
     }
 
     data class Zeitpunkt(val value: LocalDateTime = LocalDateTime.now())
+
+    companion object {
+        operator fun invoke(
+            verfasser: String,
+            nachricht: String
+        ): ErzeugungsErgebnis<Notiz> = when (val validationResult = validate(
+            Verfasser(verfasser),
+            Nachricht(nachricht)
+        )) {
+            is ValidationUtil.Error -> UngueltigeArgumente(validationResult.errors)
+            ValidationUtil.Success -> Erzeugt(
+                Notiz(
+                    verfasser = (Verfasser(verfasser) as Erzeugt).value,
+                    nachricht = (Nachricht(nachricht) as Erzeugt).value
+                )
+            )
+        }
+    }
 }

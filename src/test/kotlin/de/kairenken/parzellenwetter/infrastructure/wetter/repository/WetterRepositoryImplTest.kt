@@ -10,8 +10,12 @@ import java.util.UUID
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
 internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
+
+    @Autowired
+    protected lateinit var wetterRepositoryImplToTest: WetterRepositoryImpl
 
     @Test
     fun `speichere Wetter`() {

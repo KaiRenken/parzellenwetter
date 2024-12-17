@@ -4,9 +4,7 @@ import de.kairenken.parzellenwetter.infrastructure.wetter.repository.entity.Wett
 import java.time.LocalDateTime
 import java.util.UUID
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
 
-@Repository
 interface WetterJpaRepository : JpaRepository<WetterEntity, UUID> {
 
     fun findAllByZeitpunktBetweenOrderByZeitpunkt(

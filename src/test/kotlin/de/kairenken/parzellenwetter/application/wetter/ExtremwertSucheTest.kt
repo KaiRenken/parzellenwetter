@@ -20,7 +20,7 @@ internal class ExtremwertSucheTest {
                 von = wetterFixture.zeitpunkt.minusMinutes(1L),
                 bis = wetterFixture.zeitpunkt.plusMinutes(1L)
             )
-        } returns Pair(extremwerteDtoFixture.extremTemperaturen.first, extremwerteDtoFixture.extremTemperaturen.second)
+        } returns Pair(wetterFixture, wetterFixture)
 
         extremwertSucheToTest.holeExtremwerte(
             von = wetterFixture.zeitpunkt.minusMinutes(1L),

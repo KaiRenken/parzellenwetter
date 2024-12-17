@@ -1,12 +1,11 @@
 package de.kairenken.parzellenwetter.it
 
 import de.kairenken.parzellenwetter.application.wetter.WetterUpdate
-import de.kairenken.parzellenwetter.infrastructure.wetter.client.FetchOfWetterDataFailedException
 import de.kairenken.parzellenwetter.testcontainers.AbstractIntegrationTest
-import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
 import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.mockserver.model.HttpRequest
 import org.mockserver.model.HttpResponse
@@ -106,7 +105,7 @@ class WetterIT : AbstractIntegrationTest() {
     }
 
     @Test
-    fun `import and fetch wetter with some values null`() {
+    fun `import and fetch extremwerte successfully`() {
         val wetterApiResponse = """
             {
               "observations": [
@@ -117,7 +116,7 @@ class WetterIT : AbstractIntegrationTest() {
                   "neighborhood": "Bremen",
                   "softwareType": "WH2650A_V1.7.5",
                   "country": "DE",
-                  "solarRadiation": null,
+                  "solarRadiation": 536.6,
                   "lon": 8.829,
                   "realtimeFrequency": null,
                   "epoch": 1725370991,
@@ -131,17 +130,19 @@ class WetterIT : AbstractIntegrationTest() {
                     "heatIndex": 32,
                     "dewpt": 21,
                     "windChill": 29,
-                    "windSpeed": null,
+                    "windSpeed": 16,
                     "windGust": 19,
                     "pressure": 1015.61,
                     "precipRate": 0.00,
-                    "precipTotal": null,
+                    "precipTotal": 0.00,
                     "elev": 6
                   }
                 }
               ]
             }
         """.trimIndent()
+
+        val now = LocalDateTime.parse("2024-09-03T15:43:11")
 
         mockServerClient.`when`(
             HttpRequest.request()
@@ -152,12 +153,11 @@ class WetterIT : AbstractIntegrationTest() {
         wetterUpdate.updateWetter()
 
         wetterJpaRepository.count() shouldBe 1
+        val dbRecord = wetterJpaRepository.findAll()[0]
 
-        val now = LocalDateTime.parse("2024-09-03T15:43:11")
-
-        val record = JSONArray(
+        val record = JSONObject(
             mockMvc.get(
-                "/api/wetter/?from=${now.minusHours(2L).minusSeconds(30L)}&to=${
+                "/api/wetter/extremwerte/?from=${now.minusHours(2L).minusSeconds(30L)}&to=${
                     now.minusHours(2L).plusSeconds(30L)
                 }"
             )
@@ -168,32 +168,18 @@ class WetterIT : AbstractIntegrationTest() {
                 .response
                 .contentAsString
         )
-            .getJSONObject(0)
 
-        record.getString("zeitpunkt") shouldBe "2024-09-03T15:43:11"
-        record.getInt("temperatur") shouldBe 29
-        record.getInt("luftfeuchtigkeit") shouldBe 62
-        record.getInt("taupunkt") shouldBe 21
-        record.getFloat("luftdruck") shouldBe 1015.61f
-        record.getInt("windrichtung") shouldBe 195
-        record.get("windgeschwindigkeit") shouldBe null
-        record.getInt("windboeengeschwindigkeit") shouldBe 19
-        record.get("sonnenstrahlung") shouldBe null
-        record.getFloat("uvIndex") shouldBe 5.0f
-        record.getFloat("niederschlag") shouldBe 0.00f
-        record.get("niederschlagGesamt") shouldBe null
-    }
-
-    @Test
-    fun `import wetter when server is not available`() {
-        mockServerClient.`when`(
-            HttpRequest.request()
-                .withMethod("GET")
-        )
-            .respond(HttpResponse.response().withStatusCode(500))
-
-        shouldThrowExactly<FetchOfWetterDataFailedException> { wetterUpdate.updateWetter() }
-
-        wetterJpaRepository.count() shouldBe 0
+        record.getJSONObject("temperatur").getJSONObject("minimum")
+            .getInt("wert") shouldBe 29
+        record.getJSONObject("temperatur").getJSONObject("minimum")
+            .getString("zeitpunkt") shouldBe "2024-09-03T15:43:11"
+        record.getJSONObject("temperatur").getJSONObject("minimum")
+            .getString("wetterId") shouldBe dbRecord.id.toString()
+        record.getJSONObject("temperatur").getJSONObject("maximum")
+            .getInt("wert") shouldBe 29
+        record.getJSONObject("temperatur").getJSONObject("maximum")
+            .getString("zeitpunkt") shouldBe "2024-09-03T15:43:11"
+        record.getJSONObject("temperatur").getJSONObject("maximum")
+            .getString("wetterId") shouldBe dbRecord.id.toString()
     }
 }

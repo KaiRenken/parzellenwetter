@@ -1,17 +1,20 @@
 package de.kairenken.parzellenwetter.application.wetter
 
 import de.kairenken.parzellenwetter.application.wetter.dto.ExtremwerteDto
-import de.kairenken.parzellenwetter.domain.wetter.Wetter
 import de.kairenken.parzellenwetter.domain.wetter.wetterFixture
-import java.util.UUID
+import de.kairenken.parzellenwetter.domain.wetter.wetterIdFixture
 
 val extremwerteDtoFixture = ExtremwerteDto(
-    extremTemperaturen = Pair(
-        wetterFixture,
-        wetterFixture.copy(
-            id = Wetter.Id(UUID.randomUUID()),
-            temperatur = wetterFixture.temperatur!! + 1,
-            zeitpunkt = wetterFixture.zeitpunkt.plusMinutes(1L)
+    extremTemperaturen = ExtremwerteDto.ExtremTemperaturenDto(
+        minimum = ExtremwerteDto.ExtremTemperaturenDto.ExtremTemperaturDto(
+            wert = wetterFixture.temperatur!!,
+            wetterId = wetterIdFixture,
+            zeitpunkt = wetterFixture.zeitpunkt
+        ),
+        maximum = ExtremwerteDto.ExtremTemperaturenDto.ExtremTemperaturDto(
+            wert = wetterFixture.temperatur!!,
+            wetterId = wetterIdFixture,
+            zeitpunkt = wetterFixture.zeitpunkt
         )
     )
 )

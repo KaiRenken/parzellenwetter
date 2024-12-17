@@ -24,7 +24,7 @@ class WetterRepositoryImpl(
         wetterJpaRepository.save(wetter.mapToEntity())
     }
 
-    override fun holeExtremTemperaturen(von: LocalDateTime, bis: LocalDateTime): Pair<Wetter?, Wetter?> {
+    override fun holeExtremTemperaturen(von: LocalDateTime, bis: LocalDateTime): Pair<Wetter, Wetter>? {
         val minimalTemperatur = wetterJpaRepository
             .findFirstByZeitpunktBetweenOrderByTemperaturAsc(from = von, to = bis)
             ?.toDomain()
@@ -33,7 +33,10 @@ class WetterRepositoryImpl(
             .findFirstByZeitpunktBetweenOrderByTemperaturDesc(from = von, to = bis)
             ?.toDomain()
 
-        return Pair(minimalTemperatur, maximalTemperatur)
+        return if (minimalTemperatur != null && maximalTemperatur != null) Pair(
+            minimalTemperatur,
+            maximalTemperatur
+        ) else null
     }
 
     private fun WetterEntity.toDomain(): Wetter = Wetter(

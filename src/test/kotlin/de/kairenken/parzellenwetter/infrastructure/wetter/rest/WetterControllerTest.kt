@@ -1,11 +1,15 @@
 package de.kairenken.parzellenwetter.infrastructure.wetter.rest
 
 import com.ninjasquad.springmockk.MockkBean
+import de.kairenken.parzellenwetter.application.wetter.ExtremwertSuche
+import de.kairenken.parzellenwetter.application.wetter.dto.ExtremwerteDto
+import de.kairenken.parzellenwetter.application.wetter.extremwerteDtoFixture
 import de.kairenken.parzellenwetter.domain.wetter.WetterRepository
 import de.kairenken.parzellenwetter.domain.wetter.wetterFixture
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -22,6 +26,9 @@ internal class WetterControllerTest {
 
     @MockkBean
     private lateinit var wetterRepositoryMock: WetterRepository
+
+    @MockkBean
+    private lateinit var extremwertSucheMock: ExtremwertSuche
 
     @Nested
     @DisplayName("Hole Wetter")
@@ -85,6 +92,76 @@ internal class WetterControllerTest {
                     status { isOk() }
                     content { string("[]") }
                 }
+        }
+    }
+
+    @Nested
+    @DisplayName("Hole Extremwerte")
+    inner class HoleExtremwerteTest {
+
+        @Test
+        fun erfolgreich() {
+            val now = wetterFixture.zeitpunkt
+            every {
+                extremwertSucheMock.holeExtremwerte(
+                    von = now.minusSeconds(30L),
+                    bis = now.plusSeconds(30L)
+                )
+            } returns extremwerteDtoFixture
+
+            val record = JSONObject(
+                mockMvc.get(
+                    "/api/wetter/extremwerte/?from=${now.minusHours(2L).minusSeconds(30L)}&to=${
+                        now.minusHours(2L).plusSeconds(30L)
+                    }"
+                )
+                    .andExpect {
+                        status { isOk() }
+                    }
+                    .andReturn()
+                    .response
+                    .contentAsString
+            )
+
+            record.getJSONObject("temperatur").getJSONObject("minimum")
+                .getInt("wert") shouldBe extremwerteDtoFixture.extremTemperaturen!!.minimum.wert
+            record.getJSONObject("temperatur").getJSONObject("minimum")
+                .getString("zeitpunkt") shouldBe extremwerteDtoFixture.extremTemperaturen!!.minimum.zeitpunkt.toString()
+            record.getJSONObject("temperatur").getJSONObject("minimum")
+                .getString("wetterId") shouldBe extremwerteDtoFixture.extremTemperaturen!!.minimum.wetterId.value.toString()
+            record.getJSONObject("temperatur").getJSONObject("maximum")
+                .getInt("wert") shouldBe extremwerteDtoFixture.extremTemperaturen!!.maximum.wert
+            record.getJSONObject("temperatur").getJSONObject("maximum")
+                .getString("zeitpunkt") shouldBe extremwerteDtoFixture.extremTemperaturen!!.maximum.zeitpunkt.toString()
+            record.getJSONObject("temperatur").getJSONObject("maximum")
+                .getString("wetterId") shouldBe extremwerteDtoFixture.extremTemperaturen!!.maximum.wetterId.value.toString()
+        }
+
+        @Test
+        fun `ohne Daten`() {
+            val now = wetterFixture.zeitpunkt
+            every {
+                extremwertSucheMock.holeExtremwerte(
+                    von = now.minusSeconds(30L),
+                    bis = now.plusSeconds(30L)
+                )
+            } returns ExtremwerteDto(null)
+
+            val record = JSONObject(
+                mockMvc.get(
+                    "/api/wetter/extremwerte/?from=${now.minusHours(2L).minusSeconds(30L)}&to=${
+                        now.minusHours(2L).plusSeconds(30L)
+                    }"
+                )
+                    .andExpect {
+                        status { isOk() }
+                    }
+                    .andReturn()
+                    .response
+                    .contentAsString
+            )
+
+            record.get("temperatur") shouldBe null
         }
     }
 }

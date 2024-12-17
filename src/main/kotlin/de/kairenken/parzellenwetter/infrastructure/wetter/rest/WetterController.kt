@@ -25,7 +25,7 @@ class WetterController(private val wetterRepository: WetterRepository, private v
     ): ResponseEntity<List<ReadWetterDto>> =
         wetterRepository.holeWetter(von = from.plusHours(2L), bis = to.plusHours(2L))
             .map { it.toReadDto() }
-            .wrapItInResponse()
+            .wrapItInOkResponse()
 
     @GetMapping("/extremwerte/")
     fun getExtremwerte(
@@ -53,19 +53,25 @@ class WetterController(private val wetterRepository: WetterRepository, private v
     )
 
     private fun ExtremwerteDto.toReadExtremwerteDto() = ReadExtremwerteDto(
-        temperatur = ReadExtremwerteDto.ExtremTemperaturDto(
-            minimum = if (this.extremTemperaturen.first != null) {
-                ReadExtremwerteDto.TemperaturDto(
-                    wert = this.extremTemperaturen.first.temperatur,
-                    zeitpunkt = this.extremTemperaturen.first.zeitpunkt,
-                    wetterId = this.extremTemperaturen.first.id.value
+        temperatur = if (this.extremTemperaturen != null) {
+            ReadExtremwerteDto.ExtremTemperaturDto(
+                maximum = ReadExtremwerteDto.TemperaturDto(
+                    wert = this.extremTemperaturen.maximum.wert,
+                    zeitpunkt = this.extremTemperaturen.maximum.zeitpunkt,
+                    wetterId = this.extremTemperaturen.maximum.wetterId.value
+                ),
+                minimum = ReadExtremwerteDto.TemperaturDto(
+                    wert = this.extremTemperaturen.minimum.wert,
+                    zeitpunkt = this.extremTemperaturen.minimum.zeitpunkt,
+                    wetterId = this.extremTemperaturen.minimum.wetterId.value
                 )
-            } else null,
-            maximum = this.extremTemperaturen.second,
-            zeitpunkt = this.extremTemperaturen.
-        )
+            )
+        } else null
     )
 
-    private fun List<ReadWetterDto>.wrapItInResponse(): ResponseEntity<List<ReadWetterDto>> =
+    private fun List<ReadWetterDto>.wrapItInOkResponse(): ResponseEntity<List<ReadWetterDto>> =
+        ResponseEntity.ok(this)
+
+    private fun ReadExtremwerteDto.wrapItInOkResponse(): ResponseEntity<ReadExtremwerteDto> =
         ResponseEntity.ok(this)
 }

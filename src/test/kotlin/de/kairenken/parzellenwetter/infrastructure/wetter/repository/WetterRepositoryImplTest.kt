@@ -137,7 +137,7 @@ internal class WetterRepositoryImplTest : AbstractDatabaseTest() {
             wetterRepositoryImplToTest.holeExtremTemperaturen(
                 von = wetterEntityFixture.zeitpunkt.plusMinutes(1L),
                 bis = wetterEntityFixture.zeitpunkt.plusMinutes(5L)
-            ) shouldBe Pair(null, null)
+            ) shouldBe null
         }
     }
 }

@@ -6,6 +6,7 @@ import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.kotest.matchers.shouldBe
 import java.time.LocalDateTime
 import org.json.JSONArray
+import org.json.JSONObject
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -57,5 +58,30 @@ class WetterE2ETest : AbstractE2ETest() {
         shouldNotThrowAny { record.get("uvIndex") }
         shouldNotThrowAny { record.get("niederschlag") }
         shouldNotThrowAny { record.get("niederschlagGesamt") }
+    }
+
+    @Test
+    fun `import and fetch extremwerte successfully`() {
+        val now = LocalDateTime.now()
+
+        wetterUpdate.updateWetter()
+
+        wetterJpaRepository.count() shouldBe 1
+
+        val record = JSONObject(
+            mockMvc.get(
+                "/api/wetter/extremwerte/?from=${now.minusHours(2L).minusSeconds(30L)}&to=${
+                    now.minusHours(2L).plusSeconds(30L)
+                }"
+            )
+                .andExpect {
+                    status { isOk() }
+                }
+                .andReturn()
+                .response
+                .contentAsString
+        )
+
+        shouldNotThrowAny { record.getJSONObject("temperatur") }
     }
 }

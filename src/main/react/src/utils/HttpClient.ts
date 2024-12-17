@@ -56,3 +56,8 @@ export const httpGet = <T = any>(path: string): Promise<HttpClientResponse<T>> =
     return axios.get(path)
         .then(mapToHttpClientResponse<T>());
 };
+
+export const httpPost = <T = any>(path: string, data?: any): Promise<HttpClientResponse<T>> => {
+    return axios.post(path, data)
+        .then(mapToHttpClientResponse<T>());
+};

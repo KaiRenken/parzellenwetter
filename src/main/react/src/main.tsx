@@ -7,6 +7,7 @@ import {createRouterPath} from "./utils/LinkUtils.ts";
 import DefaultErrorPage from "./pages/DefaultErrorPage.tsx";
 import Historie from "./pages/Historie.tsx";
 import Statistik from "./pages/Statistik.tsx";
+import Notizbrett from "./pages/Notizbrett.tsx";
 
 const router = () => createBrowserRouter([
     {
@@ -21,6 +22,10 @@ const router = () => createBrowserRouter([
             {
                 path: createRouterPath("statistik"),
                 element: <Statistik/>
+            },
+            {
+                path: createRouterPath("notizbrett"),
+                element: <Notizbrett/>
             }
         ]
     }

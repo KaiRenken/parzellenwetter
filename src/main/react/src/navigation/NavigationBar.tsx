@@ -21,6 +21,13 @@ const NavigationBar = () => {
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                <ListItem key={"notizbrett"} disablePadding>
+                    <Link to={createRouterPath("notizbrett")} style={{width: "inherit"}}>
+                        <ListItemButton style={{color: "rgb(70, 70, 70)"}}>
+                            Notizbrett
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
             </List>
         </Box>
     )
